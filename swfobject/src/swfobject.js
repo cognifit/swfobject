@@ -34,11 +34,7 @@ var swfobject = function () {
         autoHideShow = true,
         encodeURIEnabled = false,
 
-    /* Centralized function for browser feature detection
-        - User agent string detection is only used when no good alternative is possible
-        - Is executed directly for optimal performance
-    */
-    ua = function () {
+    getPluginVersion = function () {
         var w3cdom = typeof doc.getElementById !== UNDEF && typeof doc.getElementsByTagName !== UNDEF && typeof doc.createElement !== UNDEF,
             u = nav.userAgent.toLowerCase(),
             p = nav.platform.toLowerCase(),
@@ -75,7 +71,13 @@ var swfobject = function () {
             catch (e) {}
         }
         return {w3: w3cdom, pv: playerVersion, wk: webkit, ie: ie, win: windows, mac: mac};
-    }(),
+    },
+        
+    /* Centralized function for browser feature detection
+        - User agent string detection is only used when no good alternative is possible
+        - Is executed directly for optimal performance
+    */
+    ua = getPluginVersion(),
 
     /* Cross-browser onDomLoad
         - Will fire an event as soon as the DOM of a web page is loaded
@@ -794,6 +796,10 @@ var swfobject = function () {
                 }
             }
             return "";
+        },
+        
+        reloadPluginVersion: function () {
+            ua = getPluginVersion();  
         },
 
         // For internal usage only
